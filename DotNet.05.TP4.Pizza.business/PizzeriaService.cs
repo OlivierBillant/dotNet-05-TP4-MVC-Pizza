@@ -44,6 +44,11 @@ namespace DotNet._05.TP4.Pizza.business
             }
         }
 
+        public void RemovePizza(int id)
+        {
+            listePizzas.Remove(GetPizzaById(id));
+        }
+
         public void CreatePizza(Pizza pizza)
         {
             /*if (pizza.Id == 0 && listePizzas.Any())
@@ -55,6 +60,11 @@ namespace DotNet._05.TP4.Pizza.business
                 pizza.Id = 1;
             }*/
             listePizzas.Add(pizza);
+        }
+
+        public Pizza GetPizzaById(int id)
+        {
+            return listePizzas.Where(p => p.Id == id).FirstOrDefault();
         }
     }
 

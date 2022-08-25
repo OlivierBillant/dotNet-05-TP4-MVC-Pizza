@@ -26,7 +26,7 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
         // GET: PizzaController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return View(PizzaViewModel.FromPizza(pizzeriaService.GetPizzaById(id)));
         }
 
         // GET: PizzaController/Create
@@ -61,11 +61,6 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
                     listeIngredientsViewModel.Add(ingredientViewModel);
                 }
 
-                /* List<IngredientViewModel> listeIngredientsViewModel = pizzeriaService.GetListeIngredients()
-                      .Where(ingredient => ingredient.Id == pizzaFormViewModel.IngredientsId)
-                      .Select(ingredient => IngredientViewModel.FromIngredient(ingredient))
-                      .ToList();*/
-
                 var pizzaViewModel = new PizzaViewModel(
                     pizzaFormViewModel.Id,
                     pizzaFormViewModel.Nom,
@@ -85,10 +80,17 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
         // GET: PizzaController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View(this.pizzeriaService.GetListePizzas()
+            this.ViewData["listePates"] = pizzeriaService.GetListePates()
+           .Select(PateViewModel.FromPate)
+           .ToList();
+            this.ViewData["listeIngredients"] = pizzeriaService.GetListeIngredients()
+                    .Select(IngredientViewModel.FromIngredient)
+                    .ToList();
+
+            return View(PizzaViewModel.FromPizza(this.pizzeriaService.GetListePizzas()
                 .Where(p => p.Id == id)
                 .FirstOrDefault()
-                );
+                ));
         }
 
         // POST: PizzaController/Edit/5
@@ -109,7 +111,7 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
         // GET: PizzaController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            return View(PizzaViewModel.FromPizza(pizzeriaService.GetPizzaById(id)));
         }
 
         // POST: PizzaController/Delete/5
@@ -119,6 +121,7 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
         {
             try
             {
+                pizzeriaService.RemovePizza(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var listePates = ViewData["listePates"] as List<PateViewModel> ?? new List<PateViewModel>();
+    var listeIngredients = ViewData["listeIngredients"] as List<IngredientViewModel> ?? new List<IngredientViewModel>(); ;
 }
 
 <h1>Edit</h1>
@@ -23,6 +25,40 @@
                 <span asp-validation-for="Nom" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Pate" class="control-label"></label>
+                <select asp-for="Pate" class="form-control">
+                    @foreach (var pate in listePates)
+                    {
+                        if (pate.Id == Model.Pate.Id)
+                        {
+                            <option value="@pate.Id" selected="selected">@pate.Nom</option>
+                        }
+                        else
+                        {
+                            <option value="@pate.Id">@pate.Nom</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="Pate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ingredients" class="control-label"></label>
+                <select asp-for="Ingredients" class="form-control">
+                    @foreach (var ingredient in listeIngredients)
+                    {
+                        if (Model.Ingredients.Contains(ingredient))
+                        {
+                            <option value="@ingredient.Id" selected="selected">@ingredient.Nom</option>
+                        }
+                        else
+                        {
+                            <option value="@ingredient.Id">@ingredient.Nom</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="Ingredients" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -34,5 +70,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

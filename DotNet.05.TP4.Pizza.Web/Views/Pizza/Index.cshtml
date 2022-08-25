@@ -41,12 +41,7 @@
                     @Html.DisplayFor(modelItem => item.Pate.Nom)
                 </td>
                 <td>
-                    @*@foreach (var ingredient in item.IngredientsDisplay)
-                    {
-                    @ingredient
-                    }*@
                     @Html.DisplayFor(modelItem => item.IngredientsDisplay)
-
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }) |

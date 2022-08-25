@@ -2,12 +2,10 @@
 
 @{
     ViewData["Title"] = "Create";
-    var listePatesTemp = ViewData["listePates"];
     //Ici on cast la liste de pateTemp qui est un objet brut en liste de PatesViewModel
     // On utilise la null safety avec ?? ou en cas de nullité, génèrera une liste vide.
-    var listePates = listePatesTemp as List<PateViewModel> ?? new List<PateViewModel>();
-    var listeIngredientsTemp = ViewData["listeIngredients"];
-    var listeIngredients = listeIngredientsTemp as List<IngredientViewModel> ?? new List<IngredientViewModel>();
+    var listePates = ViewData["listePates"] as List<PateViewModel> ?? new List<PateViewModel>();
+    var listeIngredients = ViewData["listeIngredients"] as List<IngredientViewModel> ?? new List<IngredientViewModel>(); ;
 }
 
 <h1>Create</h1>
@@ -40,7 +38,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="IngredientsId" class="control-label"></label>
-                <select asp-for="IngredientsId" class="form-control multiple">
+                <select asp-for="IngredientsId" class="form-control">
                     @foreach (var ingredient in listeIngredients)
                     {
                         <option value="@ingredient.Id">@ingredient.Nom</option>
