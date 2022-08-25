@@ -11,15 +11,15 @@ namespace DotNet._05.TP4.Pizza.business
         private static List<Pate> listePates = Pizza.PatesDisponibles;
         private static List<Pizza> listePizzas = new();
 
-        public List<Pate> getListePates()
+        public List<Pate> GetListePates()
         {
             return listePates;
         }
-        public List<Ingredient> getListeIngredients()
+        public List<Ingredient> GetListeIngredients()
         {
             return listeIngredients;
         }
-        public List<Pizza> getListePizzas()
+        public List<Pizza> GetListePizzas()
         {
             return listePizzas;
         }

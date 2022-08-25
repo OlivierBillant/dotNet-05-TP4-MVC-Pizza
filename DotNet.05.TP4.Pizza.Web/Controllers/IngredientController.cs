@@ -1,14 +1,25 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DotNet._05.TP4.Pizza.business;
+using DotNet._05.TP4.Pizza.Web.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet._05.TP4.Pizza.Web.Controllers
 {
     public class IngredientController : Controller
     {
+        private readonly PizzeriaService pizzeriaService;
+
+        public IngredientController(PizzeriaService pizzeriaService)
+        {
+            this.pizzeriaService = pizzeriaService;
+        }
         // GET: IngredientController
         public ActionResult Index()
         {
-            return View();
+            var listeIngredientViewModel = this.pizzeriaService.GetListeIngredients()
+               .Select(ingredient => IngredientViewModel.FromIngredient(ingredient))
+               .ToList();
+            return View(listeIngredientViewModel);
         }
 
         // GET: IngredientController/Details/5

@@ -1,4 +1,5 @@
 ﻿using DotNet._05.TP4.Pizza.business;
+using DotNet._05.TP4.Pizza.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.ProjectModel;
@@ -17,14 +18,11 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
         // GET: PateController
         public ActionResult Index()
         {
-            var listePatesViewModel = this.pizzeriaService.getListePates()
-                .Select(x => new Models.PateViewModel()
-                {
-                    Id = x.Id,
-                    Nom = x.Nom
-                })
-                .ToList();
+            var listePatesViewModel = this.pizzeriaService.GetListePates()
             // Transformer listePates en listePatesViewModel
+            // On appelle la méthode statique de transformation de pate en pateViewModel
+                .Select(pate => PateViewModel.FromPate(pate))
+                .ToList();
             return View(listePatesViewModel);
         }
 
