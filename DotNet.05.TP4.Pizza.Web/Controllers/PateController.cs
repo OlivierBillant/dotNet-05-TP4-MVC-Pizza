@@ -41,10 +41,11 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
         // POST: PateController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(PateViewModel pateViewModel)
         {
             try
             {
+                pizzeriaService.CreatePate(PateViewModel.ToPate(pateViewModel));
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -56,16 +57,18 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
         // GET: PateController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var pate = PateViewModel.FromPate(pizzeriaService.GetListePates().FirstOrDefault(p => p.Id == id));
+            return View(pate);
         }
 
         // POST: PateController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(PateViewModel pateViewModel)
         {
             try
             {
+                pizzeriaService.EditPate(PateViewModel.ToPate(pateViewModel));
                 return RedirectToAction(nameof(Index));
             }
             catch

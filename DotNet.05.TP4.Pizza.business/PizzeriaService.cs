@@ -1,4 +1,5 @@
 ﻿using DotNet._05.TP4.Pizza.business.Models;
+using System.IO;
 
 namespace DotNet._05.TP4.Pizza.business
 {
@@ -23,5 +24,38 @@ namespace DotNet._05.TP4.Pizza.business
         {
             return listePizzas;
         }
+
+        public void EditPate(Pate pate)
+        {
+            var pateDb = listePates.FirstOrDefault(p => p.Id == pate.Id);
+            pateDb.Nom = pate.Nom;
+        }
+        public void CreatePate(Pate pate)
+        {
+            listePates.Add(pate);
+        }
+
+        public void UpdatePizza(Pizza pizza)
+        {
+            var pizzaToUpdate = listePizzas.FirstOrDefault(pizza => pizza.Id == pizza.Id);
+            if (pizzaToUpdate is not null)
+            {
+                pizzaToUpdate.Nom = pizza.Nom;
+            }
+        }
+
+        public void CreatePizza(Pizza pizza)
+        {
+            /*if (pizza.Id == 0 && listePizzas.Any())
+            {
+                pizza.Id = listePizzas.Max(p => p.Id) + 1;
+            }
+            else
+            {
+                pizza.Id = 1;
+            }*/
+            listePizzas.Add(pizza);
+        }
     }
+
 }

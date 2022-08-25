@@ -1,8 +1,13 @@
-﻿@model DotNet._05.TP4.Pizza.Web.Models.PizzaViewModel
+﻿@model DotNet._05.TP4.Pizza.Web.Models.PizzaFormViewModel
 
 @{
     ViewData["Title"] = "Create";
-    var listepates = ViewData["listePates"];
+    var listePatesTemp = ViewData["listePates"];
+    //Ici on cast la liste de pateTemp qui est un objet brut en liste de PatesViewModel
+    // On utilise la null safety avec ?? ou en cas de nullité, génèrera une liste vide.
+    var listePates = listePatesTemp as List<PateViewModel> ?? new List<PateViewModel>();
+    var listeIngredientsTemp = ViewData["listeIngredients"];
+    var listeIngredients = listeIngredientsTemp as List<IngredientViewModel> ?? new List<IngredientViewModel>();
 }
 
 <h1>Create</h1>
@@ -24,9 +29,24 @@
                 <span asp-validation-for="Nom" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Pate" class="control-label"></label>
-                <select asp-for="Pate" value="listePates" class="form-control" />
-                <span asp-validation-for="Pate" class="text-danger"></span>
+                <label asp-for="PateId" class="control-label"></label>
+                <select asp-for="PateId" class="form-control">
+                    @foreach (var pate in listePates)
+                    {
+                        <option value="@pate.Id">@pate.Nom</option>
+                    }
+                </select>
+                <span asp-validation-for="PateId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IngredientsId" class="control-label"></label>
+                <select asp-for="IngredientsId" class="form-control multiple">
+                    @foreach (var ingredient in listeIngredients)
+                    {
+                        <option value="@ingredient.Id">@ingredient.Nom</option>
+                    }
+                </select>
+                <span asp-validation-for="IngredientsId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -40,5 +60,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

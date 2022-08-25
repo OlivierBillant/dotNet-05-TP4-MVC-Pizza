@@ -15,5 +15,14 @@
             };
         }
 
+        public static Pate ToPate(PateViewModel pateViewModel)
+        {
+            return new Pate()
+            {
+                Id = pateViewModel.Id,
+                Nom = pateViewModel.Nom
+            };
+        }
+
     }
 }

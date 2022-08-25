@@ -15,5 +15,13 @@ namespace DotNet._05.TP4.Pizza.Web.Models
             };
         }
 
+        public static Ingredient ToIngredient(IngredientViewModel ingredientViewModel)
+        {
+            return new Ingredient()
+            {
+                Id = ingredientViewModel.Id,
+                Nom = ingredientViewModel.Nom
+            };
+        }
     }
 }
