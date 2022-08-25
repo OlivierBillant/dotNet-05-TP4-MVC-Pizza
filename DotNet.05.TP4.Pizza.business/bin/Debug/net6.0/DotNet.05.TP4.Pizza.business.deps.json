@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "DotNet.05.TP4.Pizza.business/1.0.0": {
+        "runtime": {
+          "DotNet.05.TP4.Pizza.business.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DotNet.05.TP4.Pizza.business/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
