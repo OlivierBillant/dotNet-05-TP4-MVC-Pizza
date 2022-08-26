@@ -1,4 +1,5 @@
 ﻿using DotNet._05.TP4.Pizza.business.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace DotNet._05.TP4.Pizza.Web.Models
 {

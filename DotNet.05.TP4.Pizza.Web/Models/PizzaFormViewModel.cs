@@ -1,4 +1,5 @@
 ﻿using DotNet._05.TP4.Pizza.business.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace DotNet._05.TP4.Pizza.Web.Models
 {
@@ -7,6 +8,8 @@ namespace DotNet._05.TP4.Pizza.Web.Models
     public class PizzaFormViewModel
     {
         public int Id { get; set; }
+        [Required]
+        [StringLength(20, MinimumLength = 5, ErrorMessage = "Le nom de la pizza doit comprendre entre 5 et 20 caractères")]
         public string Nom { get; set; }
         public int PateId { get; set; }
         public List<int> IngredientsId { get; set; } = new List<int>();
