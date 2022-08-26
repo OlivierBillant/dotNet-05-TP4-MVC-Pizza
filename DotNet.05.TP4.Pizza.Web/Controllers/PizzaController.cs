@@ -54,9 +54,9 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
         {
             try
             {
-                //Validation sur l'existance d'une pizza portant ce nom
                 if (this.ModelState.IsValid)
                 {
+                    //Validation sur l'existance d'une pizza portant ce nom
                     if (pizzeriaService.GetListePizzas()
                         .Any(p => p.Nom.ToUpper() == pizzaFormViewModel.Nom.ToUpper()))
                     {
@@ -64,6 +64,7 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
                         return this.View();
                     }
 
+                    //Validation sur le nombre d'ingrédients
                     if (pizzaFormViewModel.IngredientsId.Count < 2 || pizzaFormViewModel.IngredientsId.Count > 5)
                     {
                         this.ModelState.AddModelError("", "La pizza doit comporter entre 2 et 5 ingrédients");
@@ -75,6 +76,21 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
                             .ToList();
                         return this.View();
                     }
+
+                    //Validation sur des pizza ayant les mêmes ingrédients
+                    if (DoublonPizza(pizzaFormViewModel))
+                    {
+                        this.ModelState.AddModelError("", "Une pizza ayant la même composition existe déjà");
+                        this.ViewData["listePates"] = pizzeriaService.GetListePates()
+                            .Select(PateViewModel.FromPate)
+                            .ToList();
+                        this.ViewData["listeIngredients"] = pizzeriaService.GetListeIngredients()
+                            .Select(IngredientViewModel.FromIngredient)
+                            .ToList();
+                        return this.View();
+                    }
+
+
 
                     PateViewModel pateViewModel = PateViewModel.FromPate(pizzeriaService.GetListePates()
                         .Where(pate => pate.Id == pizzaFormViewModel.PateId)
@@ -105,6 +121,23 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
             {
                 return View();
             }
+        }
+
+        private bool DoublonPizza(PizzaFormViewModel pizzaFormViewModel)
+        {
+            var compteur = 0;
+            foreach (var pizza in pizzeriaService.GetListePizzas())
+            {
+                if (pizzaFormViewModel.IngredientsId
+                    .OrderBy(i => i)
+                    .SequenceEqual(pizza.Ingredients.Select(i => i.Id).OrderBy(id => id))
+                    )
+                {
+                    compteur++;
+                }
+            };
+            var result = (compteur > 0) ? true : false;
+            return result;
         }
 
         // GET: PizzaController/Edit/5
