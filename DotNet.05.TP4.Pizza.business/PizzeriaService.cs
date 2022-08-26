@@ -51,14 +51,15 @@ namespace DotNet._05.TP4.Pizza.business
 
         public void CreatePizza(Pizza pizza)
         {
-            /*if (pizza.Id == 0 && listePizzas.Any())
+            if (pizza.Id == 0 && listePizzas.Any())
             {
                 pizza.Id = listePizzas.Max(p => p.Id) + 1;
             }
             else
             {
                 pizza.Id = 1;
-            }*/
+            }
+
             listePizzas.Add(pizza);
         }
 
