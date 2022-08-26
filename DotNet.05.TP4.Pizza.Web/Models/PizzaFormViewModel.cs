@@ -11,7 +11,9 @@ namespace DotNet._05.TP4.Pizza.Web.Models
         [Required]
         [StringLength(20, MinimumLength = 5, ErrorMessage = "Le nom de la pizza doit comprendre entre 5 et 20 caractères")]
         public string Nom { get; set; }
+        [Required]
         public int PateId { get; set; }
+
         public List<int> IngredientsId { get; set; } = new List<int>();
 
         public PizzaFormViewModel(int id, string nom, int pateId, List<int> ingredientsId)

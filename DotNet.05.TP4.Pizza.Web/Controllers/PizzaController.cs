@@ -54,27 +54,38 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
         {
             try
             {
-                PateViewModel pateViewModel = PateViewModel.FromPate(pizzeriaService.GetListePates()
+                //Validation sur l'existance d'une pizza portant ce nom
+                if (this.ModelState.IsValid)
+                {
+                    if (pizzeriaService.GetListePizzas()
+                        .Any(p => p.Nom.ToUpper() == pizzaFormViewModel.Nom.ToUpper()))
+                    {
+                        this.ModelState.AddModelError("", "Il existe déjà une pizza portant ce nom !");
+                        return this.View();
+                    }
+
+                    PateViewModel pateViewModel = PateViewModel.FromPate(pizzeriaService.GetListePates()
                         .Where(pate => pate.Id == pizzaFormViewModel.PateId)
                         .FirstOrDefault());
 
-                List<IngredientViewModel> listeIngredientsViewModel = new List<IngredientViewModel>();
-                foreach (var id in pizzaFormViewModel.IngredientsId)
-                {
-                    IngredientViewModel ingredientViewModel = IngredientViewModel.FromIngredient(pizzeriaService.GetListeIngredients()
-                         .Where(ingredient => ingredient.Id == id)
-                         .FirstOrDefault());
-                    listeIngredientsViewModel.Add(ingredientViewModel);
+                    List<IngredientViewModel> listeIngredientsViewModel = new List<IngredientViewModel>();
+                    foreach (var id in pizzaFormViewModel.IngredientsId)
+                    {
+                        IngredientViewModel ingredientViewModel = IngredientViewModel.FromIngredient(pizzeriaService.GetListeIngredients()
+                             .Where(ingredient => ingredient.Id == id)
+                             .FirstOrDefault());
+                        listeIngredientsViewModel.Add(ingredientViewModel);
+                    }
+
+                    var pizzaViewModel = new PizzaViewModel(
+                        pizzaFormViewModel.Id,
+                        pizzaFormViewModel.Nom,
+                        pateViewModel,
+                        listeIngredientsViewModel
+                        );
+
+                    pizzeriaService.CreatePizza(PizzaViewModel.ToPizza(pizzaViewModel));
                 }
-
-                var pizzaViewModel = new PizzaViewModel(
-                    pizzaFormViewModel.Id,
-                    pizzaFormViewModel.Nom,
-                    pateViewModel,
-                    listeIngredientsViewModel
-                    );
-
-                pizzeriaService.CreatePizza(PizzaViewModel.ToPizza(pizzaViewModel));
                 return RedirectToAction(nameof(Index));
             }
             catch
