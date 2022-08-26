@@ -26,7 +26,13 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
         // GET: PizzaController/Details/5
         public ActionResult Details(int id)
         {
-            return View(PizzaViewModel.FromPizza(pizzeriaService.GetPizzaById(id)));
+            this.ViewData["listePates"] = pizzeriaService.GetListePates()
+            .Select(PateViewModel.FromPate)
+            .ToList();
+            this.ViewData["listeIngredients"] = pizzeriaService.GetListeIngredients()
+                    .Select(IngredientViewModel.FromIngredient)
+                    .ToList();
+            return View(PizzaFormViewModel.FromPizza(pizzeriaService.GetPizzaById(id)));
         }
 
         // GET: PizzaController/Create
@@ -87,7 +93,7 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
                     .Select(IngredientViewModel.FromIngredient)
                     .ToList();
 
-            return View(PizzaViewModel.FromPizza(this.pizzeriaService.GetListePizzas()
+            return View(PizzaFormViewModel.FromPizza(this.pizzeriaService.GetListePizzas()
                 .Where(p => p.Id == id)
                 .FirstOrDefault()
                 ));

@@ -1,4 +1,4 @@
-﻿@model DotNet._05.TP4.Pizza.Web.Models.PizzaViewModel
+﻿@model DotNet._05.TP4.Pizza.Web.Models.PizzaFormViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -25,11 +25,11 @@
                 <span asp-validation-for="Nom" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Pate" class="control-label"></label>
-                <select asp-for="Pate" class="form-control">
+                <label asp-for="PateId" class="control-label"></label>
+                <select asp-for="PateId" class="form-control">
                     @foreach (var pate in listePates)
                     {
-                        if (pate.Id == Model.Pate.Id)
+                        if (pate.Id == Model.PateId)
                         {
                             <option value="@pate.Id" selected="selected">@pate.Nom</option>
                         }
@@ -39,14 +39,14 @@
                         }
                     }
                 </select>
-                <span asp-validation-for="Pate" class="text-danger"></span>
+                <span asp-validation-for="PateId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Ingredients" class="control-label"></label>
-                <select asp-for="Ingredients" class="form-control">
+                <label asp-for="IngredientsId" class="control-label"></label>
+                <select asp-for="IngredientsId" class="form-control">
                     @foreach (var ingredient in listeIngredients)
                     {
-                        if (Model.Ingredients.Contains(ingredient))
+                        if (Model.IngredientsId.Contains(ingredient.Id))
                         {
                             <option value="@ingredient.Id" selected="selected">@ingredient.Nom</option>
                         }
@@ -56,7 +56,7 @@
                         }
                     }
                 </select>
-                <span asp-validation-for="Ingredients" class="text-danger"></span>
+                <span asp-validation-for="IngredientsId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

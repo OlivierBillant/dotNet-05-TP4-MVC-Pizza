@@ -1,0 +1,56 @@
+﻿@model DotNet._05.TP4.Pizza.Web.Models.PizzaFormViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    var listePates = ViewData["listePates"] as List<PateViewModel> ?? new List<PateViewModel>();
+    var listeIngredients = ViewData["listeIngredients"] as List<IngredientViewModel> ?? new List<IngredientViewModel>(); ;
+}
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-group">
+    <label asp-for="Id" class="control-label"></label>
+    <input asp-for="Id" class="form-control" />
+    <span asp-validation-for="Id" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Nom" class="control-label"></label>
+    <input asp-for="Nom" class="form-control" />
+    <span asp-validation-for="Nom" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="PateId" class="control-label"></label>
+    <select asp-for="PateId" class="form-control">
+        @foreach (var pate in listePates)
+        {
+            if (pate.Id == Model.PateId)
+            {
+                <option value="@pate.Id" selected="selected">@pate.Nom</option>
+            }
+            else
+            {
+                <option value="@pate.Id">@pate.Nom</option>
+            }
+        }
+    </select>
+    <span asp-validation-for="PateId" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="IngredientsId" class="control-label"></label>
+    <select asp-for="IngredientsId" class="form-control">
+        @foreach (var ingredient in listeIngredients)
+        {
+            if (Model.IngredientsId.Contains(ingredient.Id))
+            {
+                <option value="@ingredient.Id" selected="selected">@ingredient.Nom</option>
+            }
+            else
+            {
+                <option value="@ingredient.Id">@ingredient.Nom</option>
+            }
+        }
+    </select>
+    <span asp-validation-for="IngredientsId" class="text-danger"></span>
+</div>

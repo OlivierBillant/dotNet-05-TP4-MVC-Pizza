@@ -1,4 +1,4 @@
-﻿@model DotNet._05.TP4.Pizza.Web.Models.PizzaViewModel
+﻿@model DotNet._05.TP4.Pizza.Web.Models.PizzaFormViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -9,7 +9,7 @@
 <div>
     <h4>PizzaViewModel</h4>
     <hr />
-    <dl class="row">
+    @*<dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
@@ -34,7 +34,8 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IngredientsDisplay)
         </dd>
-    </dl>
+    </dl>*@
+    @Html.Partial("_Details")
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new {  id = Model.Id  }) |

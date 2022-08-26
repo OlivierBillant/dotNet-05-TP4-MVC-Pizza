@@ -22,5 +22,17 @@ namespace DotNet._05.TP4.Pizza.Web.Models
         public PizzaFormViewModel()
         {
         }
+
+        public static PizzaFormViewModel FromPizza(Pizza pizza)
+        {
+            return new Models.PizzaFormViewModel()
+            {
+                Id = pizza.Id,
+                Nom = pizza.Nom,
+                PateId = pizza.Pate.Id,
+                IngredientsId = pizza.Ingredients
+                    .Select(ingredient => ingredient.Id).ToList()
+            };
+        }
     }
 }
