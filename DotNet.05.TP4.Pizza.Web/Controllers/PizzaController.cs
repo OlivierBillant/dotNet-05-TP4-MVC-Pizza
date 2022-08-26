@@ -64,9 +64,22 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
                         return this.View();
                     }
 
+                    if (pizzaFormViewModel.IngredientsId.Count < 2 || pizzaFormViewModel.IngredientsId.Count > 5)
+                    {
+                        this.ModelState.AddModelError("", "La pizza doit comporter entre 2 et 5 ingrédients");
+                        this.ViewData["listePates"] = pizzeriaService.GetListePates()
+                            .Select(PateViewModel.FromPate)
+                            .ToList();
+                        this.ViewData["listeIngredients"] = pizzeriaService.GetListeIngredients()
+                            .Select(IngredientViewModel.FromIngredient)
+                            .ToList();
+                        return this.View();
+                    }
+
                     PateViewModel pateViewModel = PateViewModel.FromPate(pizzeriaService.GetListePates()
                         .Where(pate => pate.Id == pizzaFormViewModel.PateId)
                         .FirstOrDefault());
+
 
                     List<IngredientViewModel> listeIngredientsViewModel = new List<IngredientViewModel>();
                     foreach (var id in pizzaFormViewModel.IngredientsId)
@@ -113,10 +126,32 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
         // POST: PizzaController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(PizzaFormViewModel pizzaFormViewModel)
         {
             try
             {
+                PateViewModel pateViewModel = PateViewModel.FromPate(pizzeriaService.GetListePates()
+                         .Where(pate => pate.Id == pizzaFormViewModel.PateId)
+                         .FirstOrDefault());
+
+
+                List<IngredientViewModel> listeIngredientsViewModel = new List<IngredientViewModel>();
+                foreach (var id in pizzaFormViewModel.IngredientsId)
+                {
+                    IngredientViewModel ingredientViewModel = IngredientViewModel.FromIngredient(pizzeriaService.GetListeIngredients()
+                         .Where(ingredient => ingredient.Id == id)
+                         .FirstOrDefault());
+                    listeIngredientsViewModel.Add(ingredientViewModel);
+                }
+
+                var pizzaViewModelToEdit = pizzeriaService.GetListePizzas().FirstOrDefault(p => p.Id == pizzaFormViewModel.Id);
+                pizzaViewModelToEdit.Id = pizzaFormViewModel.Id;
+                pizzaViewModelToEdit.Nom = pizzaFormViewModel.Nom;
+                pizzaViewModelToEdit.Pate = PateViewModel.ToPate(pateViewModel);
+                pizzaViewModelToEdit.Ingredients = listeIngredientsViewModel
+                    .Select(IngredientViewModel.ToIngredient)
+                    .ToList();
+
                 return RedirectToAction(nameof(Index));
             }
             catch
