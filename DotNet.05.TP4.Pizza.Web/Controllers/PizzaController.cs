@@ -68,6 +68,7 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
                     if (pizzaFormViewModel.IngredientsId.Count < 2 || pizzaFormViewModel.IngredientsId.Count > 5)
                     {
                         this.ModelState.AddModelError("", "La pizza doit comporter entre 2 et 5 ingrédients");
+                        //Idealement transformer les lignes suivantes en populateLists
                         this.ViewData["listePates"] = pizzeriaService.GetListePates()
                             .Select(PateViewModel.FromPate)
                             .ToList();
@@ -138,6 +139,14 @@ namespace DotNet._05.TP4.Pizza.Web.Controllers
             };
             var result = (compteur > 0) ? true : false;
             return result;
+
+            /*
+             Alternative jsute en linQ
+           return pizzas.Any(pizza =>
+                    pizza.Ingredients.Select(i => i.Id).OrderBy(id => id)
+                    .SequenceEqual(pizzaFormViewModel.IngredientsId.OrderBy(i => i))
+                   );
+             */
         }
 
         // GET: PizzaController/Edit/5

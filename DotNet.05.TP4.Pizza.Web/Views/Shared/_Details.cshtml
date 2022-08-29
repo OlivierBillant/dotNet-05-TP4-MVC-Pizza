@@ -4,6 +4,7 @@
     ViewData["Title"] = "Edit";
     var listePates = ViewData["listePates"] as List<PateViewModel> ?? new List<PateViewModel>();
     var listeIngredients = ViewData["listeIngredients"] as List<IngredientViewModel> ?? new List<IngredientViewModel>(); ;
+    var patesItems = listePates.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() });
 }
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -35,6 +36,12 @@
             }
         }
     </select>
+
+    @*Forme alternative pour l'affichage de select en c#
+      Intègre automatiquement la condition de sélection.
+    <select asp-for="PateId" class="form-control" asp-items="@patesItems"></select>
+    *@
+
     <span asp-validation-for="PateId" class="text-danger"></span>
 </div>
 <div class="form-group">
